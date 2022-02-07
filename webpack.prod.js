@@ -2,6 +2,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
+const path = require('path')
 
 module.exports = {
   mode: 'production',
@@ -9,7 +10,8 @@ module.exports = {
     minimizer: [new OptimizeCssAssetsPlugin()]
   },
   output: {
-    filename: 'main.[contentHash].js'
+    path: path.resolve(__dirname, 'build'),
+    filename: 'main.[contenthash].js'
   },
   module: {
     rules: [
@@ -38,7 +40,7 @@ module.exports = {
       filename: './index.html'
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].[contentHash].css',
+      filename: '[name].[contenthash].css',
       ignoreOrder: false
     }),
     new CopyPlugin({
