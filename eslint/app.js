@@ -140,3 +140,75 @@ console.warn('For of');
 for( let heroe of heroes ){
     console.log( heroe );
 }
+
+
+// --------- classes ---------
+
+class Persona { //by default has 'use strict'
+
+  static _conteo = 0;
+  static get conteo() {
+      return Persona._conteo + ' instancias';
+  }
+
+  static mensaje() {
+      console.log( this.nombre ); // undefined
+      console.log('Hola a todos, soy un método stático');
+  }
+
+  static porObjeto({ nombre, apellido, pais }) { 
+    return new Persona( nombre, apellido, pais );
+}
+// const persona2 = Persona.porObjeto( isObject);
+
+  nombre = '';
+  codigo = '';
+  frase  = '';
+  comida = '';
+
+  constructor( nombre = 'Sin nombre', codigo = 'Sin código', frase = 'Sin frase') {
+      
+      this.nombre = nombre;
+      this.codigo = codigo;
+      this.frase  = frase;
+
+      Persona._conteo++;
+  }
+
+  set setComidaFavorita( comida ) {
+      this.comida = comida.toUpperCase();
+  }
+  get getComidaFavorita() {
+      return `La comida favorita de ${ this.nombre } es ${ this.comida }`;
+  }
+
+
+  quienSoy() {
+      console.log(`Soy ${ this.nombre } y mi identidad es ${ this.codigo }`);
+  }
+
+  miFrase() {
+      this.quienSoy();
+      console.log(`${ this.codigo} dice: ${ this.frase }`);
+  }
+
+}
+
+//  ------ inheritance
+class Heroe extends Persona{ 
+    
+  #clan = 'sin clan'; //private attribute
+
+  constructor(nombre, codigo, frase) {
+      super(nombre, codigo, frase); // is necessary to access its  inheritances attributes
+
+      this.clan = 'Los Avengers';
+  }
+
+  quienSoy() {
+      console.log(`Soy ${ this.nombre }, ${ this.clan }`);
+      super.quienSoy();
+  }
+
+}
+
