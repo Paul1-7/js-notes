@@ -1,11 +1,9 @@
-import { Todo, TodoList } from './classes' // by default find the file index.js
+import { TodoList } from './classes' // by default find the file index.js
 import { createTodo } from './js/components'
 import './styles.css'
 
 export const todoList = new TodoList()
-//const task = new Todo('Aprender js')
 
-// todoList.newTodo(task)
-// createTodo(task)
+/* todoList.todos.forEach(createTodo) it´s other valid form, if is one parameter   */
 
-console.log(todoList)
+todoList.todos.forEach(todo => createTodo(todo))

@@ -3,6 +3,9 @@ import { todoList } from '../index'
 
 const divTodoList = document.querySelector('.todo-list')
 const txtInput = document.querySelector('.new-todo')
+const btnClearCompleted = document.querySelector('.clear-completed')
+const filters = document.querySelector('.filters')
+const allFilters = document.querySelectorAll('.filtro')
 
 export const createTodo = todo => {
   const htmlTodo = `<li class="${todo.completed ? 'completed' : ''}" data-id="${
@@ -37,10 +40,48 @@ txtInput.addEventListener('keyup', event => {
 divTodoList.addEventListener('click', event => {
   const elementName = event.target.localName
   const todoElement = event.target.parentElement.parentElement
-  const idElement = todoElement.dataset.id
-  console.log(idElement)
+  const idElement = Number(todoElement.dataset.id)
   if (elementName.includes('input')) {
     todoList.checkCompleted(idElement)
     todoElement.classList.toggle('completed')
+  } else if (elementName.includes('button')) {
+    todoList.deleteTodo(idElement)
+    divTodoList.removeChild(todoElement)
+  }
+})
+
+btnClearCompleted.addEventListener('click', () => {
+  todoList.deleteCompleted()
+  for (let i = divTodoList.children.length - 1; i >= 0; i--) {
+    const element = divTodoList.children[i]
+    if (element.classList.contains('completed')) {
+      divTodoList.removeChild(element)
+    }
+  }
+})
+
+filters.addEventListener('click', event => {
+  const filter = event.target
+
+  if (!filter.text) return
+
+  allFilters.forEach(item => item.classList.remove('selected'))
+  filter.classList.add('selected')
+
+  for (const todo of divTodoList.children) {
+    todo.classList.remove('hidden')
+    const completed = todo.classList.contains('completed')
+
+    switch (filter.text) {
+      case 'Completados':
+        if (!completed) {
+          todo.classList.add('hidden')
+        }
+        break
+      case 'Pendientes':
+        if (completed) {
+          todo.classList.add('hidden')
+        }
+    }
   }
 })
