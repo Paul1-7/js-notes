@@ -6,10 +6,13 @@ const TerserPlugin = require('terser-webpack-plugin')
 const path = require('path')
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   optimization: {
     minimize: true,
     minimizer: [new TerserPlugin(), new CssMinimizerPlugin()]
+  },
+  entry: {
+    app: path.resolve(__dirname, 'todolist')
   },
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -48,15 +51,15 @@ module.exports = {
   },
   plugins: [
     new HtmlWebPackPlugin({
-      template: './src/index.html',
+      template: './todolist/index.html',
       filename: './index.html'
     }),
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css',
       ignoreOrder: false
-    }),
-    new CopyPlugin({
-      patterns: [{ from: 'src/assets', to: 'assets/' }]
     })
+    // new CopyPlugin({
+    //   patterns: [{ from: 'src/assets', to: 'assets/' }]
+    // })
   ]
 }
